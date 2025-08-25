@@ -767,7 +767,7 @@ public class HomeFragment extends Fragment {
     // Salva i risultati della sessione di inferenza nel database
     private void saveSessionResultsToDB(String type, String results){
         String timestamp = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
-        Inference inference = new Inference(type, results, timestamp);
+        InferenceEntity inference = new InferenceEntity(type, results, timestamp);
         database.addOrUpdateInference(inference);
     }
 

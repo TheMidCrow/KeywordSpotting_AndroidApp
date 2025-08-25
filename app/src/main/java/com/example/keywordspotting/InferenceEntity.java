@@ -40,18 +40,4 @@ public class InferenceEntity {
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
-
-    // Metodo per convertire in Inference
-    public Inference toInference() {
-        return new Inference(id, type, results, timestamp);
-    }
-
-    // Metodo statico per convertire da Inference
-    public static InferenceEntity fromInference(Inference inference) {
-        if (inference.getId() == 0) {
-            return new InferenceEntity(inference.getType(), inference.getResults(), inference.getTimestamp());
-        } else {
-            return new InferenceEntity(inference.getId(), inference.getType(), inference.getResults(), inference.getTimestamp());
-        }
-    }
 }

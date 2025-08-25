@@ -23,15 +23,13 @@ public class EncryptedInferencesDB {
         return instance;
     }
 
-    public void addOrUpdateInference(Inference inference) {
+    public void addOrUpdateInference(InferenceEntity inference) {
         try {
-            InferenceEntity entity = InferenceEntity.fromInference(inference);
-
             if (inference.getId() > 0) {
-                database.inferenceDao().updateInference(entity);
+                database.inferenceDao().updateInference(inference);
                 Log.d(TAG, "Inference updated: " + inference.getId());
             } else {
-                long id = database.inferenceDao().insertInference(entity);
+                long id = database.inferenceDao().insertInference(inference);
                 inference.setId(id);
                 Log.d(TAG, "Inference added with ID: " + id);
             }
@@ -40,14 +38,9 @@ public class EncryptedInferencesDB {
         }
     }
 
-    public List<Inference> getAllInferences() {
+    public List<InferenceEntity> getAllInferences() {
         try {
-            List<InferenceEntity> entities = database.inferenceDao().getAllInferences();
-            List<Inference> inferences = new ArrayList<>();
-
-            for (InferenceEntity entity : entities) {
-                inferences.add(entity.toInference());
-            }
+            List<InferenceEntity> inferences = database.inferenceDao().getAllInferences();
 
             Log.d(TAG, "Retrieved " + inferences.size() + " inferences from database");
             return inferences;

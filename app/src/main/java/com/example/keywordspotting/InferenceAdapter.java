@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.ViewHolder>{
-    private List<Inference> inferences;
+    private List<InferenceEntity> inferences;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Inference inference);
+        void onItemClick(InferenceEntity inference);
     }
 
-    public InferenceAdapter(List<Inference> inferences, OnItemClickListener listener) {
+    public InferenceAdapter(List<InferenceEntity> inferences, OnItemClickListener listener) {
         this.inferences = inferences;
         this.listener = listener;
     }
@@ -34,7 +34,7 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Inference inf = inferences.get(position);
+        InferenceEntity inf = inferences.get(position);
         holder.bind(inf, listener);
     }
 
@@ -50,7 +50,7 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
             text1 = itemView.findViewById(android.R.id.text1);
             text2 = itemView.findViewById(android.R.id.text2);
         }
-        public void bind(Inference inf, OnItemClickListener listener) {
+        public void bind(InferenceEntity inf, OnItemClickListener listener) {
             text1.setText(inf.getTimestamp());
             String desc = inf.getType() + " | click here for more informations";
             text2.setText(desc);
@@ -59,7 +59,7 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void notifyChanges(List<Inference> newInferences) {
+    public void notifyChanges(List<InferenceEntity> newInferences) {
         this.inferences.clear();
         if(newInferences != null && !newInferences.isEmpty()){
             this.inferences.addAll(newInferences);

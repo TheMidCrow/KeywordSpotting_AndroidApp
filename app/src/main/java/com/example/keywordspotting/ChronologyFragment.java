@@ -25,7 +25,7 @@ public class ChronologyFragment extends Fragment {
     private Button clearChronology;
     private RecyclerView recyclerView;
     private InferenceAdapter adapter;
-    private List<Inference> inferences;
+    private List<InferenceEntity> inferences;
     private EncryptedInferencesDB database;
 
     // TODO: Rename parameter arguments, choose names that match
