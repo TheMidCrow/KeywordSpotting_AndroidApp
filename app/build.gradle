@@ -1,0 +1,67 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.example.keywordspotting'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.keywordspotting"
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures{
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
+
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libjsc.so'
+        pickFirst '**/libsqlcipher.so'
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    implementation libs.recyclerview
+    implementation files('../libs/jlibrosa-1.1.8-SNAPSHOT-jar-with-dependencies.jar')
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    implementation libs.tensorflow.lite
+    implementation libs.tensorflow.lite.support
+    implementation(libs.tensorflow.lite.task.audio) {
+        exclude group: 'org.tensorflow', module: 'tensorflow-lite-api'
+        exclude group: 'org.tensorflow', module: 'tensorflow-lite-support-api'
+    }
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
+    implementation libs.android.database.sqlcipher
+    implementation libs.sqlite
+}
