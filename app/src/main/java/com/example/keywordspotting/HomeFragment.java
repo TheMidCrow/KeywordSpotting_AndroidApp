@@ -311,7 +311,7 @@ public class HomeFragment extends Fragment {
     // Gestisce il click del bottone "Record"
     private void handleRecordButtonClick(View v){
         if(isInferencing){
-            Toast.makeText(this.requireContext(), "Wait for the inference to end...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.requireContext(), "Wait for the inference to end...", Toast.LENGTH_LONG).show();
         } else {
             sessionResults = new ArrayList<>();
             this.record(v);
@@ -321,9 +321,9 @@ public class HomeFragment extends Fragment {
     // Gestisce il click del bottone "Upload"
     private void handleUploadButtonClick(View v){
         if(isInferencing){
-            Toast.makeText(this.requireContext(), "Wait for the inference to end...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.requireContext(), "Wait for the inference to end...", Toast.LENGTH_LONG).show();
         } else if(isRecording) {
-            Toast.makeText(this.requireContext(), "Wait for the audio recording to end...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.requireContext(), "Wait for the audio recording to end...", Toast.LENGTH_LONG).show();
         } else {
             sessionResults = new ArrayList<>();
             this.upload(v);
@@ -339,7 +339,7 @@ public class HomeFragment extends Fragment {
     public void handleAudioFile(@NonNull Uri audioUri){
         isInferencing = true;
 
-        Toast.makeText(requireContext(), "Analyzing file...", Toast.LENGTH_LONG).show();
+        Toast.makeText(requireContext(), "Analyzing file...", Toast.LENGTH_SHORT).show();
 
         recordingThread = new Thread(() -> startInferenceFromFile(audioUri));
         recordingThread.start();
@@ -389,7 +389,7 @@ public class HomeFragment extends Fragment {
             showToastToUiThread("Error while loading the audio file");
         } catch (Exception e) {
             Log.e("startInferenceFromFile", "Error: " + e.getMessage(), e);
-            showToastToUiThread("Errore during the inference process");
+            showToastToUiThread("Error during the inference process");
         } finally {
             Log.d("startInferenceFromFile", "Inference terminated.");
             isInferencing = false;
@@ -452,7 +452,7 @@ public class HomeFragment extends Fragment {
             throw new WavFileException("Wav file has invalid format");
         }
 
-        // Rimuoviamo il DC offset (componente continua)
+        // Rimuoviamo il DC offset
         audioData = removeDCOffset(audioData);
 
         // Applicachiamo il pre-emphasis per migliorare il riconoscimento vocale
@@ -486,10 +486,10 @@ public class HomeFragment extends Fragment {
 
     // Rimuove il DC Offset dal segnale audio
     private float[] removeDCOffset(float[] audio) {
-        // Ottieni la media (DC offset)
+        // Otteniamo la media (DC offset)
         double mean = getDCOffset(audio);
 
-        // Rimuovi la media da tutti i campioni
+        // Rimuoviamo la media da tutti i campioni
         float[] result = new float[audio.length];
         for (int i = 0; i < audio.length; i++) {
             result[i] = (float) (audio[i] - mean);
@@ -499,7 +499,7 @@ public class HomeFragment extends Fragment {
         return result;
     }
 
-    // Aggiungiamo il pre-emphasis filter per migliorare il rilevamento vocale
+    // Aggiunge il pre-emphasis filter per migliorare il rilevamento vocale
     private float[] applyPreEmphasis(float[] audio, float alpha) {
         if (audio.length < 2) {
             return audio;
@@ -517,8 +517,6 @@ public class HomeFragment extends Fragment {
 
     // Normalizza il segnale audio
     private float[] normalizeAudio(float[] audio) {
-        // Per modelli di speech recognition, spesso è meglio normalizzare per il picco
-        // piuttosto che per RMS
 
         float maxAbs = 0.0f;
         for (float sample : audio) {
@@ -527,7 +525,7 @@ public class HomeFragment extends Fragment {
 
         if (maxAbs > 1e-6) { // Evita divisione per zero
             float[] normalized = new float[audio.length];
-            // Normalizza al 70% del range massimo per evitare clipping
+            // Normalizziamo al 70% del range massimo per evitare clipping
             float normalizationFactor = 0.7f / maxAbs;
 
             for (int i = 0; i < audio.length; i++) {
@@ -558,7 +556,7 @@ public class HomeFragment extends Fragment {
     private void processAudioData(float[] audioData) throws Exception {
         Log.d("processAudioDataWithConvModel", "Start inference...");
 
-        // Carica il modello per ottenerne le informazioni
+        // Carichiamo il modello per ottenerne le informazioni
         Interpreter interpreter = new Interpreter(loadModelFile(this.requireContext(), "conv_actions_frozen.tflite"));
 
         // Log delle informazioni del modello
@@ -669,11 +667,11 @@ public class HomeFragment extends Fragment {
                 // Input arrays
                 Object[] inputs = new Object[2];
                 inputs[0] = audioMatrix; // [16000, 1] float32
-                inputs[1] = new int[]{param}; // [1] int32
+                inputs[1] = new int[]{param};
 
                 // Output map
                 Map<Integer, Object> outputs = new HashMap<>();
-                float[][] outputArray = new float[1][12]; // [1, 12] float32
+                float[][] outputArray = new float[1][12];
                 outputs.put(0, outputArray);
 
                 // Eseguiamo l'inferenza
@@ -714,10 +712,10 @@ public class HomeFragment extends Fragment {
             return 0.0f;
         }
 
-        // Ottieni la media
+        // Otteniamo la media
         double mean = getDCOffset(scores);
 
-        // Calcola la varianza
+        // Calcoliamo la varianza
         double variance = 0.0;
         for (float score : scores) {
             variance += Math.pow(score - mean, 2);
@@ -755,7 +753,7 @@ public class HomeFragment extends Fragment {
         return index;
     }
 
-    // Mostra il messaggio d'errore all'utente
+    // Mostra un Toast all'utente proveniente da un thread separato
     private void showToastToUiThread(String message) {
         if (getActivity() != null) {
             requireActivity().runOnUiThread(() -> {
