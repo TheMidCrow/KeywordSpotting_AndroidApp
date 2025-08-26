@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description">Chiude la finestra pop-up dei risultati</string>
+    <string name="Upload">Carica</string>
+    <string name="Record">Registra</string>
+    <string name="Chronology">Cronologia</string>
+    <string name="Clear">Pulisci</string>
+    <string name="Click_Here">Clicca qui per maggiori informazioni</string>
+    <string name="Stop">Ferma</string>
+    <string name="Results">Risultati</string>
+    <string name="Detection">Parole chiave rilevate</string>
+    <string name="No_detection">Nessuna parola chiave rilevata</string>
+    <string name="Keyword">Parola chiave</string>
+    <string name="Confidence">Confidenza</string>
+</resources>

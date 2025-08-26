@@ -21,13 +21,6 @@ public class InferenceEntity {
         this.timestamp = timestamp;
     }
 
-    public InferenceEntity(long id, String type, String results, String timestamp) {
-        this.id = id;
-        this.type = type;
-        this.results = results;
-        this.timestamp = timestamp;
-    }
-
     // Getter e Setter
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }

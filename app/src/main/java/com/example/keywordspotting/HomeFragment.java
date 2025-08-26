@@ -156,6 +156,7 @@ public class HomeFragment extends Fragment {
 
     // Imposta e fa partire la registrazione audio
     private void record(View V){
+        Context context = this.requireContext();
         if(!isRecording){
             try{
 
@@ -169,7 +170,7 @@ public class HomeFragment extends Fragment {
                 audioRecord.startRecording();
                 isRecording = true;
 
-                recordButton.setText("Stop");
+                recordButton.setText(context.getString(R.string.Stop));
                 recordButton.setOnClickListener(this::stopRecording);
 
                 handler = new Handler();
@@ -182,7 +183,7 @@ public class HomeFragment extends Fragment {
                 if(isRecording){
                     isRecording = false;
                 }
-                recordButton.setText("Record");
+                recordButton.setText(context.getString(R.string.Record));
                 recordButton.setOnClickListener(this::record);
             }
         }
@@ -196,7 +197,7 @@ public class HomeFragment extends Fragment {
                 audioRecord.release();
                 audioRecord = null;
 
-                recordButton.setText("Record");
+                recordButton.setText(this.requireContext().getString(R.string.Record));
                 recordButton.setOnClickListener(this::handleRecordButtonClick);
 
                 isRecording = false;
@@ -302,7 +303,7 @@ public class HomeFragment extends Fragment {
 
         this.showResultFragment(finalResult);
 
-        this.saveSessionResultsToDB("Record", finalResult);
+        this.saveSessionResultsToDB(this.requireContext().getString(R.string.Record), finalResult);
 
         Log.d("TFLite", "Inference terminated.");
     }
@@ -636,7 +637,7 @@ public class HomeFragment extends Fragment {
 
         this.showToastToUiThread("Analysis terminated.");
 
-        this.saveSessionResultsToDB("Upload", finalResult);
+        this.saveSessionResultsToDB(this.requireContext().getString(R.string.Upload), finalResult);
     }
 
     // Carica il modello tflite
@@ -773,14 +774,15 @@ public class HomeFragment extends Fragment {
 
     // Formatta i risultati ottenuti dalla sessione di inferenza in un unica stringa
     private String formatResultsString(){
+        Context context = this.requireContext();
         if(sessionResults == null || sessionResults.isEmpty()){
-            return "No keywords have been detected";
+            return context.getString(R.string.No_detection);
         }
 
-        StringBuilder sb = new StringBuilder("Keywords detected:\n");
+        StringBuilder sb = new StringBuilder(context.getString(R.string.Detection) + ":\n");
         for(Result result : sessionResults){
-            sb.append("Keyword: ").append(result.getKeyword())
-                    .append(" | Confidence: ").append(result.getConfidence())
+            sb.append(context.getString(R.string.Keyword) + ": ").append(result.getKeyword())
+                    .append(" | " + context.getString(R.string.Confidence) + ": ").append(result.getConfidence())
                     .append("\n");
         }
         return sb.toString();

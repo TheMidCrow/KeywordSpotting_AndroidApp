@@ -25,7 +25,6 @@ public abstract class AppDatabase extends RoomDatabase {
                     SQLiteDatabase.loadLibs(context);
 
                     // Creiamo il support factory con la passphrase
-                    // Usiamo il costruttore che NON cancella automaticamente la passphrase
                     final byte[] passphrase = SQLiteDatabase.getBytes(DATABASE_PASSPHRASE.toCharArray());
                     final SupportFactory factory = new SupportFactory(passphrase, null, false);
 

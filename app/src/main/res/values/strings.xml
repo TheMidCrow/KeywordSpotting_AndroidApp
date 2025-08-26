@@ -1,6 +1,16 @@
 <resources>
-    <string name="app_name">Keyword Spotting</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">Keyword Spotting</string>
     <string name="description">Closes the results dialog.</string>
+    <string name="Upload">Upload</string>
+    <string name="Record">Record</string>
+    <string name="Home" translatable="false">Home</string>
+    <string name="Chronology">Chronology</string>
+    <string name="Clear">Clear</string>
+    <string name="Click_Here">click here for more informations</string>
+    <string name="Stop">Stop</string>
+    <string name="Results">Results</string>
+    <string name="Detection">Keyword detected</string>
+    <string name="No_detection">No keywords have been detected</string>
+    <string name="Keyword">Keyword</string>
+    <string name="Confidence">Confidence</string>
 </resources>

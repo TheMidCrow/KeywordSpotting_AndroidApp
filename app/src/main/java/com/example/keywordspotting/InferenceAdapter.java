@@ -1,6 +1,7 @@
 package com.example.keywordspotting;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
     private List<InferenceEntity> inferences;
     private OnItemClickListener listener;
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
+
     public interface OnItemClickListener {
         void onItemClick(InferenceEntity inference);
     }
@@ -27,7 +31,8 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        context = parent.getContext();
+        View v = LayoutInflater.from(context)
                 .inflate(android.R.layout.simple_list_item_2, parent, false);
         return new ViewHolder(v);
     }
@@ -52,7 +57,7 @@ public class InferenceAdapter extends RecyclerView.Adapter<InferenceAdapter.View
         }
         public void bind(InferenceEntity inf, OnItemClickListener listener) {
             text1.setText(inf.getTimestamp());
-            String desc = inf.getType() + " | click here for more informations";
+            String desc = inf.getType() + " | " + context.getString(R.string.Click_Here);
             text2.setText(desc);
             itemView.setOnClickListener(v -> listener.onItemClick(inf));
         }
