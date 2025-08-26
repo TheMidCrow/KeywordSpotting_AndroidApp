@@ -4,4 +4,5 @@ To perform inference on a prerecorded audio file, the file must have the followi
 - .wav extension;
 - 16 kHz sample rate;
 - mono channel.
+
 If these specs are not met, the inference will probably fail.
